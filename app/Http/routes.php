@@ -26,8 +26,18 @@ Route::get('/tasks', function(Request $request){
 * Add New Task
 */
 Route::post('/task', function(Request $request) {
-	//
-});
+	$validator = Validator::make($request->all(), [
+		'name' => 'required|max:255',
+
+]);
+	if($validator->fails()) {
+		return redirect('/tasks')
+			->withInput()
+			->withErrors($validator);
+			
+	// create the task	
+
+}
 
 /**
 * Delete Task
