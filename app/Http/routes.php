@@ -30,14 +30,16 @@ Route::post('/task', function(Request $request) {
 		'name' => 'required|max:255',
 
 ]);
-	if($validator->fails()) {
+	if($validator->fails()) 
+	{
 		return redirect('/tasks')
 			->withInput()
 			->withErrors($validator);
+	}
 			
 	// create the task	
 
-}
+});
 
 /**
 * Delete Task
