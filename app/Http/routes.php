@@ -11,25 +11,29 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function () 
+{
     return view('welcome');
 });
 
 /**
 * Show tasks
 */
-Route::get('/tasks', function(Request $request){
+Route::get('/tasks', function(Request $request)
+{
 	return view('tasks');
 });
 
 /**
 * Add New Task
 */
-Route::post('/task', function(Request $request) {
+Route::post('/task', function(Request $request) 
+{
 	$validator = Validator::make($request->all(), [
 		'name' => 'required|max:255',
 
-]);
+	]);
+	
 	if($validator->fails()) 
 	{
 		return redirect('/tasks')
@@ -44,6 +48,7 @@ Route::post('/task', function(Request $request) {
 /**
 * Delete Task
 */
-Route::delete('/task/{task}', function(Task $task) {
+Route::delete('/task/{task}', function(Task $task) 
+{
 	//
 });
