@@ -10,45 +10,43 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use App\Task;
+use Illuminate\Http\Request;
+Route::get('/', function () {
+    $tasks = Task::orderBy('created_at', 'asc')->get();
 
-Route::get('/', function () 
-{
-    return view('welcome');
+    return view('tasks', [
+        'tasks' => $tasks
+    ]);
 });
 
-/**
-* Show tasks
-*/
-Route::get('/tasks', function(Request $request)
-{
-	return view('tasks');
-});
 
 /**
 * Add New Task
 */
-Route::post('/task', function(Request $request) 
-{
-	$validator = Validator::make($request->all(), [
-		'name' => 'required|max:255',
+Route::post('/task', function (Request $request) {
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:255',
+    ]);
 
-	]);
-	
-	if($validator->fails()) 
-	{
-		return redirect('/tasks')
-			->withInput()
-			->withErrors($validator);
-	}
-			
-	// create the task	
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
 
+    $task = new Task;
+    $task->name = $request->name;
+    $task->save();
+
+    return redirect('/');
 });
 
 /**
 * Delete Task
 */
-Route::delete('/task/{task}', function(Task $task) 
-{
-	//
+Route::delete('/task/{task}', function (Task $task) {
+    $task->delete();
+
+    return redirect('/');
 });
